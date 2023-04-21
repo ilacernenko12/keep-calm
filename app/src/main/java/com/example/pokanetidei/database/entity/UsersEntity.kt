@@ -1,8 +1,9 @@
-package com.example.pokanetidei.database
+package com.example.pokanetidei.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDateTime
 
 @Entity(tableName = "user_database")
 data class UsersEntity(
@@ -16,5 +17,5 @@ data class UsersEntity(
     var email: String,
 
     @ColumnInfo(name = "password")
-    var password: String
+    var password: String,
 )

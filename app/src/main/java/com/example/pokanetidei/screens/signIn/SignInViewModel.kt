@@ -2,20 +2,23 @@ package com.example.pokanetidei.screens.signIn
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.pokanetidei.database.UsersDatabase
-import com.example.pokanetidei.database.UsersEntity
-import com.example.pokanetidei.database.UsersRepository
+import com.example.pokanetidei.App
+import com.example.pokanetidei.database.entity.UsersEntity
+import com.example.pokanetidei.database.UserRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SignInViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: UsersRepository
+    private val repository: UserRepositoryImpl = UserRepositoryImpl(App.room.usersDao)
 
-    init {
-        val dao = UsersDatabase.getInstance(application).usersDao
-        repository = UsersRepository(dao)
+    private val _username = MutableLiveData<String>("")
+    val username: LiveData<String> = _username
+
+    fun onUserNameChanged(userName: String) {
+        _username.value = userName
     }
 
     fun insertNewUser(user: UsersEntity) = viewModelScope.launch(Dispatchers.IO) {
